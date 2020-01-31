@@ -1,0 +1,203 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue購物車</title>
+	<link rel="icon" href="supermarket.png" type="image/x-icon" / >
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<style>
+body{
+    background: linear-gradient(rgba(121, 85, 72, 0.31),white);
+}
+.item_header{
+    display: flex;
+    width: 1000px;
+    margin: 0 auto;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 3px;
+    padding-left: 10px;
+}
+.item_header div{
+    width: 200px;
+    color: #888;
+    line-height: 30px;
+}
+.item_header .item_detail{
+    width: 50%;
+}
+.item_body{
+    margin-top: 20px;
+    height: 100px;
+    align-items: center;    
+}
+.item_detail img{
+    width: 80px;
+    height: 80px;
+    border-radius: 3px;
+    float: left;
+}
+.item_detail .name{
+    margin-left: 100px;
+    margin-top: 20px;
+}
+.name {
+    display: flex;
+    flex-direction: column;
+}
+.myshop,.total{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px auto;
+    width: 1000px;
+}
+.total{
+  color:rgb(121, 85, 72);
+}
+
+hr {
+    width: 53%;
+    margin-top:25px;
+}
+.shopbtn {
+    display: flex;
+    float: right;
+    width: 660px;
+}
+.btn1 a,.btn2 a{
+    margin-right: 15px;
+    text-decoration: none;
+    padding: 15px;
+    border: 2px solid;
+    font-size: 16px;
+    border-radius: 8px;
+    color: #888;
+}
+.btn2 a{
+    color:white;
+    background-color:rgb(121, 85, 72);
+}
+</style>
+
+</head>
+
+<body>
+<div class="myshop">購物車</div>
+
+<div id="app">
+     <div class="container">
+          <div class="item_header">
+               <div class="item_detail">商品</div>
+               <div class="price">單價</div>
+               <div class="count">數量</div>
+               <div class="amount">總計</div>
+               <div class="operate">操作</div>
+          </div>
+
+          <div class="item_container" v-for="(item,index) in itemList" :key="item.id" >
+                <div class="item_header item_body">
+                       <div class="item_detail">
+                            <img v-bind:src="item.imgUrl" alt="">
+                            <div class="name">{{item.itemName}}</div>
+                       </div>
+
+                       <div class="price"><span>$</span>{{item.price}}</div>
+                       <div class="count">
+                            <button @click="handleSub(item)">-</button>
+                            {{item.count}}
+                            <button @click="handlePlus(item)">+</button>
+                       </div>
+
+                       <div class="amount"><span>$</span>{{item.price * item.count}}</div>
+                       <div class="operate">
+                           <button @click="handledelete(index)">刪除</button>
+                       </div>
+                </div>
+          </div>
+     </div>
+  <hr>
+
+  <div class="total">購物車總計</div>
+  <div class="total">合計 : <span>$</span>{{total}}</div>
+  <div class="shopbtn">
+       <div class="btn1"><a href = "#">繼續購物</a></div>
+       <div class="btn2"><a href = "#">前往結帳</a></div>
+  </div>
+
+</div>
+
+
+<script>
+var app = new Vue({
+  el:'#app',
+    data:{
+      total:0,
+      itemList:[
+            {
+                id:'1',
+                itemName:'優質短袖白T',
+                imgUrl:'Tshirt.jpg',
+                price:'500',
+                count:'10'
+
+            },
+
+            {
+                id:'2',
+                itemName:'韓版卡其色大衣',
+                imgUrl:'coat.jpg',
+                price:'1500',
+                count:'10'
+
+            },
+            
+            {
+                id:'3',
+                itemName:'英倫街頭格紋褲',
+                imgUrl:'pants.jpg',
+                price:'690',
+                count:'10'
+
+            },
+
+            {
+                id:'4',
+                itemName:'韓版牛仔破褲',
+                imgUrl:'jeans.jpg',
+                price:'880',
+                count:'10'
+
+            },
+
+        ]
+          
+    },
+  methods:{
+    handlePlus:function(item){
+        console.log(item);
+        item.count++;
+    },
+    handleSub:function(item){
+        console.log(item);
+          if(item.count > 1){
+             item.count--;
+          }        
+    },
+    handledelete:function(index){
+        this.itemList.splice(index,1)
+    }
+    
+  },
+  computed:{
+    total:function(){
+      var total = 0; /*修改 > {{item.price * item.count}}*/
+     }
+  }
+});
+
+</script>
+
+</body>
+</html>
